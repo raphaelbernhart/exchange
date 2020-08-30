@@ -1,0 +1,36 @@
+{
+  "name": "exchange",
+  "version": "0.0.1",
+  "description": "A NodeJS file upload server to share files via url.",
+  "main": "server.js",
+  "scripts": {
+    "start": "node .",
+    "start:dev": "nodemon .",
+    "build": "tsc -b ."
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/raphaelbernhart/exchange.git"
+  },
+  "keywords": [
+    "Upload",
+    "Server"
+  ],
+  "author": "Raphael Bernhart",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/raphaelbernhart/exchange/issues"
+  },
+  "homepage": "https://github.com/raphaelbernhart/exchange#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "helmet": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/dotenv": "^8.2.0",
+    "@types/express": "^4.17.7",
+    "@types/helmet": "0.0.48",
+    "nodemon": "^2.0.4"
+  }
+}
