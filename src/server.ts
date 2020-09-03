@@ -1,4 +1,6 @@
-import express from 'express'
+import express, { Request, Response } from 'express'
+import fileUpload from 'express-fileupload'
+import cors from 'cors'
 import helmet from 'helmet'
 import dotenv from 'dotenv'
 
@@ -12,11 +14,37 @@ const app = express();
 
 // Middleware
 app.use(
-    helmet()
+    // Static files
+    express.static(__dirname+'/public'),
+    cors({
+        origin: [
+            "localhost",
+            "ec.raphaelbernhart.at"
+        ]
+    }),
+    fileUpload(),
+    helmet({
+        contentSecurityPolicy: false,
+      })
 );
 
-// Router
-const router = express.Router();
+// Controller
+import fileController from './controller/fileController'
+
+// Worker
+// import ExpirationWorker from './worker/expirationWorker'
+
+// setInterval(() => {
+//     ExpirationWorker()
+// }, 900000)
+
+// Routes
+app.use("/", fileController)
+
+// No file found
+app.get("*", (req: Request, res: Response) => {
+    res.status(400).sendFile(__dirname+"/views/error.html");
+})
 
 // Disconnect db on application close
 process.on("SIGINT", () => {
