@@ -22,7 +22,7 @@ export default async () => {
         const itemIDs = Object.keys(items)
         for (let i = 0; i < itemIDs.length; i++) {
             const created = items[itemIDs[i]].created;
-            const expirationTime = moment().subtract(14, "day").unix();
+            const expirationTime = moment().subtract(3, "day").unix();
             const extension = items[itemIDs[i]].extension;
             const id = itemIDs[i];
 
