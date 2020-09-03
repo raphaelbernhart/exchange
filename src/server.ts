@@ -32,11 +32,11 @@ app.use(
 import fileController from './controller/fileController'
 
 // Worker
-// import ExpirationWorker from './worker/expirationWorker'
+import ExpirationWorker from './worker/expirationWorker'
 
-// setInterval(() => {
-//     ExpirationWorker()
-// }, 900000)
+setInterval(() => {
+    ExpirationWorker()
+}, 900000)
 
 // Routes
 app.use("/", fileController)

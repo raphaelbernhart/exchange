@@ -90,7 +90,7 @@ app.component("upload-panel", {
 
             this.updateState("UPLOAD_PROGRESS");
 
-            axios.post('http://localhost/upload', formData, config)
+            axios.post('https://ec.raphaelbernhart.at/upload', formData, config)
             .then(res => {
                 const data = res.data;
                 if(data.msg == "FILE_UPLOADED") {
