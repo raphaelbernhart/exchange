@@ -27,7 +27,7 @@ export default async () => {
             const id = itemIDs[i];
 
             // check if item has expired with unix timestamp
-            if(created > expirationTime) {
+            if(created < expirationTime) {
                 try {
                     // delete the file from storage
                     await fs.promises.unlink(path.join(__dirname+`/../storage/uploads/${id}.${extension}`))
