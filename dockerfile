@@ -1,11 +1,22 @@
-FROM node:12.18.3-alpine
+FROM node:12.18.3-alpine AS build
 WORKDIR /app
+
 COPY package*.json ./
+COPY .env* ./
+
 RUN npm install
 
 COPY . /app
 RUN npm run build
 
-EXPOSE 80
+FROM node:12.18.3-alpine AS production
+WORKDIR /app
+
+COPY package*.json ./
+COPY .env* ./
+
+RUN npm install --production
+
+COPY --from=build /app/dist /app
 
 CMD [ "npm", "start" ]

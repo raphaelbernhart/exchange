@@ -30,6 +30,7 @@ app.use(
 
 // Controller
 import fileController from './controller/fileController'
+import BackendController from './controller/BackendController'
 
 // Worker
 import ExpirationWorker from './worker/expirationWorker'
@@ -39,6 +40,8 @@ setInterval(() => {
 }, 900000)
 
 // Routes
+app.use("/admin", BackendController)
+
 app.use("/", fileController)
 
 // No file found
