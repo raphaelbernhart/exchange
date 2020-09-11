@@ -4,7 +4,7 @@
   "description": "A NodeJS file upload server to share files via url.",
   "main": "server.js",
   "scripts": {
-    "start": "node ./dist/server.js",
+    "start": "node .",
     "start:dev": "nodemon .",
     "build": "gulp build"
   },
