@@ -26,21 +26,11 @@ const storage = () => {
 }
 
 // Compile .html to minify .html
-const html = () => {
+const views = () => {
     // Find HTML
-    return gulp.src(`${src}/views/*.html`)
+    return gulp.src(`${src}/views/*.*`)
         // Init Plumber
         .pipe(plumber())
-        // Compile HTML -> minified HTML
-        .pipe(htmlmin({
-            collapseWhitespace: true,
-            removeComments: true,
-            html5: true,
-            removeEmptyAttributes: true,
-            removeTagWhitespace: true,
-            sortAttributes: true,
-            sortClassName: true
-        }))
         // Write everything to destination folder
         .pipe(gulp.dest(`${dest}/views/`));
 };
@@ -55,7 +45,7 @@ const script = () => {
 };
 
 // Just Build the Project
-const build = gulp.series(assets, storage, html, script);
+const build = gulp.series(assets, storage, views, script);
 
 // Default function (used when type gulp)
 exports.build = build;

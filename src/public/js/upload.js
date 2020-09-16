@@ -1,3 +1,7 @@
+let apiUrl = "https://ec.raphaelbernhart.at/upload"
+const apiUrlData = document.getElementById('apiUrl').dataset.apiurl;
+if(apiUrlData) apiUrl = apiUrlData
+
 // Create a Vue application
 const app = Vue.createApp({
     data() {
@@ -90,7 +94,7 @@ app.component("upload-panel", {
 
             this.updateState("UPLOAD_PROGRESS");
 
-            axios.post('https://ec.raphaelbernhart.at/upload', formData, config)
+            axios.post(apiUrl, formData, config)
             .then(res => {
                 const data = res.data;
                 if(data.msg == "FILE_UPLOADED") {
