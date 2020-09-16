@@ -39,6 +39,8 @@ setInterval(() => {
     ExpirationWorker()
 }, 900000)
 
+app.set('view engine', 'ejs');
+
 // Routes
 app.use("/admin", BackendController)
 
