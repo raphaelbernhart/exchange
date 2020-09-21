@@ -12,8 +12,9 @@ export default (req: Request|any, res: Response) => {
         const id = generateID(6);
         const fData = req.files.uploadFile.data;
         const extension = file.name.split('.').pop();
+        const maxFileSize = process.env.MAX_FILE_SIZE;
 
-        if(file.size > 20000000) {
+        if(file.size > maxFileSize) {
             throw {
                 code: 403,
                 msg: "FILE_SIZE_TO_BIG"
