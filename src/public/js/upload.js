@@ -1,6 +1,7 @@
 let apiUrl = "https://ec.raphaelbernhart.at/upload"
 const apiUrlData = document.getElementById('apiUrl').dataset.apiurl;
 if(apiUrlData) apiUrl = apiUrlData
+const maxFileSize = document.getElementById('maxFileSize').dataset.maxfilesize;
 
 // Create a Vue application
 const app = Vue.createApp({
@@ -36,6 +37,7 @@ const app = Vue.createApp({
 app.component("upload-panel", {
     data() {
         return {
+            maxFileSize: maxFileSize,
             error: "",
         }
     },
@@ -46,7 +48,7 @@ app.component("upload-panel", {
             <input type="file" name="uploadFile" id="uploadFile">
             <div class="text">
                 <h1>Upload your files</h1>
-                <p>Drag your files here to upload them (max. 20MB)</p>
+                <p>Drag your files here to upload them (max. {{ maxFileSize / 1000000 }}MB)</p>
             </div>
         </div>
     </div>
@@ -78,8 +80,8 @@ app.component("upload-panel", {
             const formData = new FormData();
             const input = document.getElementById("uploadFile");
 
-            if(input.files[0].size > 20000000) {
-                this.error = "Datei ist zu groß. (max. 20MB)"
+            if(input.files[0].size > maxFileSize) {
+                this.error = `Datei ist zu groß. (max. ${maxFileSize/1000000}MB)`
                 return
             }
         
