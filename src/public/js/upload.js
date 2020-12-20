@@ -1,4 +1,4 @@
-let apiUrl = "https://ec.raphaelbernhart.at/upload"
+let apiUrl = "http://localhost:80/upload"
 const apiUrlData = document.getElementById('apiUrl').dataset.apiurl;
 if(apiUrlData) apiUrl = apiUrlData
 const maxFileSize = document.getElementById('maxFileSize').dataset.maxfilesize;
@@ -9,7 +9,7 @@ const app = Vue.createApp({
         return {
             state: "UPLOAD_PANEL",
             progressPercent: 0,
-            progressSeconds: 0,
+            progressSeconds: 100,
             linkID: "",
         }
     },
@@ -39,6 +39,10 @@ app.component("upload-panel", {
         return {
             maxFileSize: maxFileSize,
             error: "",
+            uploadStarted: false,
+            timeStarted: 0,
+            timeSinceStartLastRound: 0,
+            secondsLeft: 0
         }
     },
     template: `
@@ -90,6 +94,22 @@ app.component("upload-panel", {
             const config = {
                 onUploadProgress: (progressEvent) => {
                     let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
+
+                    if(this.uploadStarted == false) {
+                        this.uploadStarted = true;
+                        this.timeStarted = progressEvent.timeStamp;
+                    }
+
+                    const secondsSinceStart = (progressEvent.timeStamp - this.timeStarted) / 1000;
+                    const secondsLeft = Math.round(secondsSinceStart * (100 / percentCompleted - 1 ));
+
+                    if((secondsSinceStart - this.timeSinceStartLastRound) >= 0.9) {
+                        this.timeSinceStartLastRound = secondsSinceStart;
+                        this.secondsLeft = secondsLeft;
+                    }
+
+                    console.log(this.secondsLeft)
+                    this.updateProgressSeconds(this.secondsLeft);
                     this.updateProgressPercent(percentCompleted)
                 }
             }
@@ -138,7 +158,7 @@ app.component("upload-progress", {
         <div class="text">
             <h2>Uploading file</h2>
             <h4>{{progressPercent}}%</h4>
-            <h4>{{timeLeft}} Seconds left</h4>
+            <h4>{{progressSeconds}} Seconds left</h4>
         </div>
         <!-- <a class="cancel">Cancel</a> -->
         <div id="progress-bar" :style="'width:'+progressPercent+'%'"></div>
