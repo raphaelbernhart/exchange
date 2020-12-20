@@ -107,8 +107,7 @@ app.component("upload-panel", {
                         this.timeSinceStartLastRound = secondsSinceStart;
                         this.secondsLeft = secondsLeft;
                     }
-
-                    console.log(this.secondsLeft)
+                        
                     this.updateProgressSeconds(this.secondsLeft);
                     this.updateProgressPercent(percentCompleted)
                 }
