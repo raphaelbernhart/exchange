@@ -15,7 +15,7 @@ spec:
     spec:
       containers:
       - name: exchange
-        image: raphy02/exchange:0.2.0
+        image: raphy02/exchange:0.2.1
         env:
         - name: NODE_ENV
           value: production
