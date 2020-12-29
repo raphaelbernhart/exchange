@@ -35,9 +35,10 @@ import BackendController from './controller/BackendController'
 // Worker
 import ExpirationWorker from './worker/expirationWorker'
 
+// Expiration Worker
 setInterval(() => {
     ExpirationWorker()
-}, 900000)
+}, parseInt(process.env.EXPIRATION_WORKER_INTERVAL) * 3600000)
 
 app.set('view engine', 'ejs');
 
