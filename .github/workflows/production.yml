@@ -24,3 +24,10 @@ jobs:
       - name: Build Docker Image
         id: build-image
         run: docker build -t raphy02/exchange:${{ steps.package-version.outputs.current-version}} .
+        env:
+          NODE_ENV: production
+          PORT: 80
+          MAX_FILE_SIZE: 100000000
+          EXPIRATION_TIME: 7
+          EXPIRATION_WORKER_INTERVAL: 6
+          API_URL: https://ec.raphaelbernhart.at/upload/
