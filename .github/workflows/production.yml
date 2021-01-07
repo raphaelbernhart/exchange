@@ -36,6 +36,8 @@ jobs:
     needs: test
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v2
+        
       # Get current package.json Version
       - name: Get current package version
         id: package-version
