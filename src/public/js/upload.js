@@ -51,8 +51,8 @@ app.component("upload-panel", {
         <div id="upload-drop-zone" @dragenter.stopPropagation()="dragEnter($event)" @dragleave.stopPropagation()="dragLeave($event)" @click="openFileDialog($event)" @dragover.prevent="void 0" @drop="handleDrop($event)" @change="uploadFile($event)">
             <input type="file" name="uploadFile" id="uploadFile">
             <div class="text">
-                <h1>Upload your files</h1>
-                <p>Drag your files here to upload them (max. {{ maxFileSize / 1000000 }}MB)</p>
+                <h1>Upload your file</h1>
+                <p>Drag your file here to upload it (max. {{ maxFileSize / 1000000 }}MB)</p>
             </div>
         </div>
     </div>
