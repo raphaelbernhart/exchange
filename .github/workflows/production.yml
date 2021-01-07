@@ -75,6 +75,7 @@ jobs:
         with:
           method: kubeconfig
           kubeconfig: KUBECONFIG
+          kubectl-version: 1.18
       
       - uses: jtalk/k8s-deploy@v2
         with:
