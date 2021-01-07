@@ -74,8 +74,7 @@ jobs:
       - uses: azure/k8s-set-context@v1
         with:
           method: kubeconfig
-          kubeconfig: KUBECONFIG # Use secret (https://developer.github.com/actions/managing-workflows/storing-secrets/)
-        id: setcontext
+          kubeconfig: KUBECONFIG
       
       - uses: jtalk/k8s-deploy@v2
         with:
