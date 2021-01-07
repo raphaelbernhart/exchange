@@ -59,3 +59,21 @@ jobs:
         
       - name: Push Image
         run: docker push raphy02/exchange:${{ steps.package-version.outputs.current-version}}
+
+  deploy:
+    needs: push
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        
+        # Get current package.json Version
+      - name: Get current package version
+        id: package-version
+        uses: martinbeentjes/npm-get-version-action@v1.1.0
+      
+      - uses: jtalk/k8s-deploy@v2
+        with:
+          manifests: |
+              ./kube/manifest.yml
+          images: 'raphy02/exchange:${{ steps.package-version.outputs.current-version}}'
+          kubectl-version: 'latest'
