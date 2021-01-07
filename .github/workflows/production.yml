@@ -78,6 +78,7 @@ jobs:
       
       - uses: Azure/k8s-deploy@v1.3
         with:
+          namespace: personal
           manifests: |
               ./kube/manifest.yml
           images: 'raphy02/exchange:${{ steps.package-version.outputs.current-version}}'
