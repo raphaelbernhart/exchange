@@ -70,6 +70,12 @@ jobs:
       - name: Get current package version
         id: package-version
         uses: martinbeentjes/npm-get-version-action@v1.1.0
+        
+      - uses: azure/k8s-set-context@v1
+        with:
+          method: kubeconfig
+          kubeconfig: KUBECONFIG # Use secret (https://developer.github.com/actions/managing-workflows/storing-secrets/)
+        id: setcontext
       
       - uses: jtalk/k8s-deploy@v2
         with:
