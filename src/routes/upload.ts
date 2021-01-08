@@ -11,7 +11,8 @@ export default (req: Request|any, res: Response) => {
         const file = req.files.uploadFile;
         const id = generateID(6);
         const fData = req.files.uploadFile.data;
-        const extension = file.name.split('.').pop();
+        const regex = /(?:\.([^.]+))?$/;
+        const extension = regex.exec(file.name)[1];
         const maxFileSize = process.env.MAX_FILE_SIZE;
 
         if(file.size > maxFileSize) {
@@ -22,7 +23,7 @@ export default (req: Request|any, res: Response) => {
         }
 
         // Write File to uploads directory
-        fs.writeFile(path.join(__dirname+`/../storage/uploads/${id}.${extension}`), fData, (err)=>{
+        fs.writeFile(path.join(__dirname+`/../storage/uploads/${file.name}.${extension}`), fData, (err)=>{
             if(err) {
                 Logger.error(err)
                 throw "FILE COULD NOT BE WRITTEN"
