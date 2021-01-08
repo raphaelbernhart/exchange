@@ -23,7 +23,7 @@ export default (req: Request|any, res: Response) => {
         }
 
         // Write File to uploads directory
-        fs.writeFile(path.join(__dirname+`/../storage/uploads/${file.name}.${extension}`), fData, (err)=>{
+        fs.writeFile(path.join(__dirname+`/../storage/uploads/${id}.${extension}`), fData, (err)=>{
             if(err) {
                 Logger.error(err)
                 throw "FILE COULD NOT BE WRITTEN"
@@ -38,8 +38,10 @@ export default (req: Request|any, res: Response) => {
             }
             else {
                 let data = readData ? JSON.parse(readData) : {};
+                let name = file.name.split('.').slice(0, -1).join('.');
+                name = name ? name : "NO_NAME";
                 const newData = {
-                    name: file.name,
+                    name:  name,
                     created: moment().unix(),
                     size: file.size,
                     encoding: file.encoding,
