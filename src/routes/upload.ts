@@ -11,7 +11,8 @@ export default (req: Request|any, res: Response) => {
         const file = req.files.uploadFile;
         const id = generateID(6);
         const fData = req.files.uploadFile.data;
-        const extension = file.name.split('.').pop();
+        const regex = /(?:\.([^.]+))?$/;
+        const extension = regex.exec(file.name)[1];
         const maxFileSize = process.env.MAX_FILE_SIZE;
 
         if(file.size > maxFileSize) {
@@ -37,8 +38,10 @@ export default (req: Request|any, res: Response) => {
             }
             else {
                 let data = readData ? JSON.parse(readData) : {};
+                let name = file.name.split('.').slice(0, -1).join('.');
+                name = name ? name : "NO_NAME";
                 const newData = {
-                    name: file.name,
+                    name:  name,
                     created: moment().unix(),
                     size: file.size,
                     encoding: file.encoding,
