@@ -16,5 +16,6 @@ COPY package*.json ./
 RUN npm install --production
 
 COPY --from=build /app/dist /app
+RUN mkdir -p /app/storage/uploads
 
 CMD [ "npm", "start" ]
