@@ -8,6 +8,10 @@ spec:
     matchLabels:
       app: exchange
   replicas: 1
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
   template:
     metadata:
       labels:
@@ -15,7 +19,7 @@ spec:
     spec:
       containers:
       - name: exchange
-        image: raphy02/exchange:0.2.1
+        image: registry.raphaelbernhart.at/raphaelbernhart/exchange:0.2.4
         env:
         - name: NODE_ENV
           value: production
@@ -36,6 +40,8 @@ spec:
           requests:
             memory: "35M"
             cpu: "30m"
+      imagePullSecrets:
+      - name: regcred
 
 ---
 
