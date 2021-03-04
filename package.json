@@ -1,6 +1,6 @@
 {
   "name": "exchange",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "A NodeJS file upload server to share files via url.",
   "main": "server.js",
   "scripts": {

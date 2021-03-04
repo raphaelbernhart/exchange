@@ -19,7 +19,7 @@ spec:
     spec:
       containers:
       - name: exchange
-        image: registry.raphaelbernhart.at/raphaelbernhart/exchange:0.2.4
+        image: registry.raphaelbernhart.at/raphaelbernhart/exchange:0.2.5
         env:
         - name: NODE_ENV
           value: production
@@ -40,8 +40,15 @@ spec:
           requests:
             memory: "35M"
             cpu: "30m"
+        volumeMounts:
+        - name: exchange-persistent-storage
+          mountPath: /app/storage
       imagePullSecrets:
       - name: regcred
+      volumes:
+      - name: exchange-persistent-storage
+        persistentVolumeClaim:
+          claimName: exchange-pvc
 
 ---
 
