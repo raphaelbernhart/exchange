@@ -32,6 +32,9 @@ app.use(
 import fileController from './controller/fileController'
 import BackendController from './controller/BackendController'
 
+import StorageInit from './helper/StorageInit'
+StorageInit()
+
 // Worker
 import ExpirationWorker from './worker/expirationWorker'
 
@@ -50,14 +53,6 @@ app.use("/", fileController)
 // No file found
 app.get("*", (req: Request, res: Response) => {
     res.status(400).sendFile(__dirname+"/views/error.html");
-})
-
-// Disconnect db on application close
-process.on("SIGINT", () => {
-    try {
-        // DISCONNECT DB HERE
-    } catch {}
-        process.exit(0);
 })
 
 // Application Listening

@@ -10,7 +10,8 @@ export default class Logger {
         console.error(prefix + "\x1b[32m Success: " + SuccessMessage + reset);
     }
 
-    static error(ErrorMessage: string|Error): void {
+    static error(ErrorMessage: string|Error): string|Error {
         console.error(prefix + "\x1b[31m Error:   " + ErrorMessage + reset);
+        return ErrorMessage;
     }
 }
