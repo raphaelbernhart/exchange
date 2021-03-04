@@ -4,6 +4,7 @@ import path from 'path'
 
 // Helper
 import Logger from "../helper/logging";
+import Metrics from '../helper/Metrics'
 
 export default async (req: Request|any, res: Response) => {
     const id = req.params.id;
@@ -31,6 +32,8 @@ export default async (req: Request|any, res: Response) => {
                     if(allowedExtensions.includes(file.extension)) {
                         res.status(200).sendFile(path.join(__dirname+`/../storage/uploads/${file.name}.${file.extension}`), (err) => {
                             if(err) Logger.error(err);
+
+                            Metrics.calls.add(id)
     
                             fs.unlink(path.join(__dirname+`/../storage/uploads/${file.name}.${file.extension}`), (err) => {
                                 if(err) Logger.error(err);
@@ -39,6 +42,8 @@ export default async (req: Request|any, res: Response) => {
                     } else {
                         res.status(200).download(path.join(__dirname+`/../storage/uploads/${file.name}.${file.extension}`), (err) => {
                             if(err) Logger.error(err);
+
+                            Metrics.calls.add(id)
     
                             fs.unlink(path.join(__dirname+`/../storage/uploads/${file.name}.${file.extension}`), (err) => {
                                 if(err) Logger.error(err);
