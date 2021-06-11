@@ -21,7 +21,7 @@ jobs:
         
       - name: Build Docker Image
         id: build-image
-        run: docker build -t raphy02/exchange:${{ steps.package-version.outputs.current-version}} .
+        run: docker build -t registry.raphaelbernhart.at/raphaelbernhart/exchange:${{ steps.package-version.outputs.current-version}} .
         env:
           NODE_ENV: production
           PORT: 80
@@ -43,7 +43,7 @@ jobs:
         
       - name: Build Docker Image
         id: build-image
-        run: docker build -t raphy02/exchange:${{ steps.package-version.outputs.current-version}} .
+        run: docker build -t registry.raphaelbernhart.at/raphaelbernhart/exchange:${{ steps.package-version.outputs.current-version}} .
         env:
           NODE_ENV: production
           PORT: 80
@@ -56,7 +56,7 @@ jobs:
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u ${{ secrets.DOCKER_USERNAME }} --password-stdin
         
       - name: Push Image
-        run: docker push raphy02/exchange:${{ steps.package-version.outputs.current-version}}
+        run: docker push registry.raphaelbernhart.at/raphaelbernhart/exchange:${{ steps.package-version.outputs.current-version}}
 
   deploy:
     needs: push
