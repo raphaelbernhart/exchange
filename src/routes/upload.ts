@@ -62,7 +62,7 @@ export default (req: Request|any, res: Response) => {
                 res.status(201).send({msg: "FILE_UPLOADED", id: id})
             }
         })
-    } catch(err) {
+    } catch(err: any) {
         const code = err.code ? err.code : 500;
         const msg = err.msg ? err.msg : "INTERNAL_ERROR";
         const log = err.msg ? err.msg : err;

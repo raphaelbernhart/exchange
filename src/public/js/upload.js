@@ -3,6 +3,11 @@ const apiUrlData = document.getElementById('apiUrl').dataset.apiurl;
 if(apiUrlData) apiUrl = apiUrlData
 const maxFileSize = document.getElementById('maxFileSize').dataset.maxfilesize;
 
+const CancelToken = axios.CancelToken;
+let cancel;
+
+let uploadReq;
+
 // Create a Vue application
 const app = Vue.createApp({
     data() {
@@ -15,7 +20,7 @@ const app = Vue.createApp({
     },
     template: `
         <upload-panel v-if="state == 'UPLOAD_PANEL'" id="upload-panel" @updateProgressPercent="updateProgressPercent" @updateProgressSeconds="updateProgressSeconds" @updateState="updateState" @getLinkID="getLinkID"></upload-panel>
-        <upload-progress v-if="state == 'UPLOAD_PROGRESS'" :progressPercent="progressPercent" :progressSeconds="progressSeconds"></upload-progress>
+        <upload-progress v-if="state == 'UPLOAD_PROGRESS'" @cancelUploadEvent="cancelUpload" :progressPercent="progressPercent" :progressSeconds="progressSeconds"></upload-progress>
         <upload-link v-if="state == 'UPLOAD_LINK'" :linkID="linkID"></upload-link>
     `,
     methods: {
@@ -30,6 +35,19 @@ const app = Vue.createApp({
         },
         getLinkID(id) {
             this.linkID = id;
+        },
+        cancelUpload () {
+            // Clear Input
+            const input = document.getElementById('uploadFile')
+            console.log(input)
+
+            this.progressPercent = 0
+
+            // Cancel Upload
+            cancel()
+
+            // Update State
+            this.updateState('UPLOAD_PANEL')
         }
     }
 })
@@ -51,8 +69,8 @@ app.component("upload-panel", {
         <div id="upload-drop-zone" @dragenter.stopPropagation()="dragEnter($event)" @dragleave.stopPropagation()="dragLeave($event)" @click="openFileDialog($event)" @dragover.prevent="void 0" @drop="handleDrop($event)" @change="uploadFile($event)">
             <input type="file" name="uploadFile" id="uploadFile">
             <div class="text">
-                <h1>Upload your file</h1>
-                <p>Drag your file here to upload it (max. {{ maxFileSize / 1000000 }}MB)</p>
+                <h1 class="text-white">Upload your file</h1>
+                <p class="text-white">Drag your file here to upload it (max. {{ maxFileSize / 1000000 }}MB)</p>
             </div>
         </div>
     </div>
@@ -92,6 +110,9 @@ app.component("upload-panel", {
             formData.append("uploadFile", input.files[0]);
 
             const config = {
+                cancelToken: new CancelToken(function executor(c) {
+                    cancel = c
+                }),
                 onUploadProgress: (progressEvent) => {
                     let percentCompleted = Math.round((progressEvent.loaded * 100) / progressEvent.total)
 
@@ -159,14 +180,15 @@ app.component("upload-progress", {
             <h4>{{progressPercent}}%</h4>
             <h4>{{progressSeconds}} Seconds left</h4>
         </div>
-        <!-- <a class="cancel">Cancel</a> -->
+        <a @click="cancelUpload" class="cancel">Cancel</a>
         <div id="progress-bar" :style="'width:'+progressPercent+'%'"></div>
     </div>
     `,
-    mounted() {
-        // setInterval(() => {
-        //     this.timeLeft =
-        // }, 1000)
+    methods: {
+        cancelUpload () {
+            this.timeLeft = 100
+            this.$emit('cancelUploadEvent', true)
+        }
     }
 })
 
@@ -178,13 +200,19 @@ app.component("upload-link", {
         return {}
     },
     template: `
-        <div id="upload-link" @click="getLink">
-            <div class="icon">
-                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>copy</title><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></g></svg>
+        <div style="display: flex; align-items: center; flex-wrap: wrap; justify-content: center;">
+            <div id="upload-link" @click="getLink">
+                <div class="icon">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><title>copy</title><g stroke-linejoin="round" stroke-linecap="round" stroke-width="2" fill="none"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></g></svg>
+                </div>
+                <div class="link">
+                    <p>ec.raphaelbernhart.at/{{linkID}}</p>
+                </div>
             </div>
-            <div class="link">
-                <p>ec.raphaelbernhart.at/{{linkID}}</p>
-            </div>
+            <a href="https://ec.raphaelbernhart.at/{{linkID}}" target="_blank" id="upload-link-opener">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 20 20"><title>external-link</title><g fill="#8D8D8D"><path d="M11 3a1 1 0 1 0 0 2h2.586l-6.293 6.293a1 1 0 1 0 1.414 1.414L15 6.414V9a1 1 0 1 0 2 0V4a1 1 0 0 0-1-1h-5z" fill="#8D8D8D"></path><path d="M5 5a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2v-3a1 1 0 1 0-2 0v3H5V7h3a1 1 0 0 0 0-2H5z" fill="#8D8D8D"></path></g></svg>
+            </a>
+            <a id="upload-link-reupload" href="https://ec.raphaelbernhart.at">Upload another file</a>
         </div>
     `,
     methods: {
