@@ -79,4 +79,6 @@ jobs:
           namespace: personal
           manifests: |
               ./kube/manifest.yml
-          images: 'raphy02/exchange:${{ steps.package-version.outputs.current-version}}'
+          images: 'registry.raphaelbernhart.at/raphaelbernhart.at/exchange:${{ steps.package-version.outputs.current-version}}'
+          imagepullsecrets: |
+            regcred
