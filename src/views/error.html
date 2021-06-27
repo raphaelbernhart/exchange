@@ -8,8 +8,9 @@
     <link rel="shortcut icon" href="https://assets.raphaelbernhart.at/images/favicon/favicon.ico" type="image/x-icon">
 
     <!-- Styles -->
-    <link rel="stylesheet" href="css/styles.css">
-    <!-- ENTFERNEN BEFOR FINISH --><link rel="stylesheet" href="/src/public/css/styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
+    <!-- ENTFERNEN BEFOR FINISH -->
+    <link rel="stylesheet" href="/src/public/css/styles.css">
     <style>
         h1 {
             font-size: 4.5rem;
@@ -35,10 +36,6 @@
     </style>
 </head>
 <body>
-    <!-- <h1>Not found</h1>
-    <p>Can't find the requested file</p> -->
-    <!-- <p id="file-id"></p> -->
-
     <div style="padding: 0 0 0 10%; display: flex; align-items: center; height: 100vh; gap: 60px;">
         <div style="width: 30%;">
             <h1>File not found</h1>
@@ -55,9 +52,15 @@
 
     <script>
         (async () => {
+            // Id into html
             const fileIdElement = document.querySelector('#file-id');
 
-            const fileId = window.location.pathname;
+            let fileId = window.location.pathname;
+            console.log(fileId.substring(fileId.length-1, fileId.length))
+            // Remove slash at the start of the path
+            if(fileId.substring(0, 1) === '/') fileId = fileId.substring(1, fileId.length)
+            // Remove slash in the end of the path
+            if(fileId.substring(fileId.length-1, fileId.length) === '/') fileId = fileId.substring(0, fileId.length-1)
 
             fileIdElement.innerHTML = fileId;
 
