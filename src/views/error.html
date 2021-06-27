@@ -3,10 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>File not found - ec.raphaelbernart.at</title>
+
+    <link rel="shortcut icon" href="https://assets.raphaelbernhart.at/images/favicon/favicon.ico" type="image/x-icon">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- ENTFERNEN BEFOR FINISH --><link rel="stylesheet" href="/src/public/css/styles.css">
+    <style>
+        h1 {
+            font-size: 4.5rem;
+            font-style: italic;
+            text-transform: uppercase;
+            font-weight: 900;
+        }
+        h2 {
+            font-size: 1.4rem;
+            /* text-transform: uppercase; */
+            font-weight: 100;
+        }
+        .link-info {
+            color: white;
+            font-size: .8rem;
+            font-weight: 700;
+            text-decoration: none;
+            text-transform: uppercase;
+        }
+        .width-100 {
+            width: 100%;
+        }
+    </style>
 </head>
 <body>
-    <h1>Not found</h1>
-    <p>Can't find the requested file</p>
+    <!-- <h1>Not found</h1>
+    <p>Can't find the requested file</p> -->
+    <!-- <p id="file-id"></p> -->
+
+    <div style="padding: 0 0 0 10%; display: flex; align-items: center; height: 100vh; gap: 60px;">
+        <div style="width: 30%;">
+            <h1>File not found</h1>
+            <h2>Can't find the file <span style="font-style: italic; font-weight: 400;" id="file-id"></span>.</h2>
+            <div style="display: flex; gap: 20px; margin-top: 60px;">
+                <a class="link-info" href="https://ec.raphaelbernhart.at">Erneut Hochladen</a>
+                <a class="link-info" href="https://raphaelbernhart.at">raphaelbernhart.at</a>
+            </div>
+        </div>
+        <div style="width: 70%; background-color: rgba(53, 53, 53); border: 0;">
+            <img id="image" style="height: 100vh; object-fit: cover;" src="" alt="">
+        </div>
+    </div>
+
+    <script>
+        (async () => {
+            const fileIdElement = document.querySelector('#file-id');
+
+            const fileId = window.location.pathname;
+
+            fileIdElement.innerHTML = fileId;
+
+            // Fetch API
+            const data = await fetchApi();
+
+            // Update ImageURL
+            const img = document.querySelector('#image');
+            let imgUrl = data.urls.regular.substring(0, 177) + '&h=1080';
+
+            img.src = imgUrl;
+            img.classList.add('width-100')
+
+
+            async function fetchApi() {
+                const clientId = '_U6SMxBwCZTszmiL_of9N4SG6EtMzSt2LeSlblZwZZg';
+                const apiURL = `https://api.unsplash.com/photos/random?client_id=${clientId}`;
+
+                // Fetch Image
+                return await fetch(apiURL)
+                .then((res) => {
+                    return res.json();
+                })
+            }
+        })()
+    </script>
 </body>
 </html>
