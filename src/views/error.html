@@ -9,8 +9,6 @@
 
     <!-- Styles -->
     <link rel="stylesheet" href="/css/styles.css">
-    <!-- ENTFERNEN BEFOR FINISH -->
-    <link rel="stylesheet" href="/src/public/css/styles.css">
     <style>
         h1 {
             font-size: 4.5rem;
@@ -34,13 +32,6 @@
             width: 100%;
         }
     </style>
-
-    <!--
-        TODOS
-        - work through the checklist | https://unsplash.com/oauth/applications/242639
-        - apply for production
-        - release exchange new version
-    -->
 </head>
 <body>
     <div style="padding: 0 0 0 10%; display: flex; align-items: center; height: 100vh; gap: 60px;">
@@ -48,7 +39,7 @@
             <h1>File not found</h1>
             <h2>Can't find the file <span style="font-style: italic; font-weight: 400;" id="file-id"></span>.</h2>
             <div style="display: flex; gap: 20px; margin-top: 60px;">
-                <a class="link-info" href="https://ec.raphaelbernhart.at">Erneut Hochladen</a>
+                <a class="link-info" href="https://ec.raphaelbernhart.at">Datei Hochladen</a>
                 <a class="link-info" href="https://raphaelbernhart.at">raphaelbernhart.at</a>
             </div>
         </div>
@@ -63,7 +54,7 @@
             const fileIdElement = document.querySelector('#file-id');
 
             let fileId = window.location.pathname;
-            console.log(fileId.substring(fileId.length-1, fileId.length))
+
             // Remove slash at the start of the path
             if(fileId.substring(0, 1) === '/') fileId = fileId.substring(1, fileId.length)
             // Remove slash in the end of the path
@@ -76,7 +67,7 @@
 
             // Update ImageURL
             const img = document.querySelector('#image');
-            let imgUrl = data.urls.regular.substring(0, 177) + '&h=1080';
+            let imgUrl = data.urls.regular.substring(0, 177) + '&h=1440&q=60';
 
             img.src = imgUrl;
             img.classList.add('width-100')
@@ -84,7 +75,7 @@
 
             async function fetchApi() {
                 const clientId = '_U6SMxBwCZTszmiL_of9N4SG6EtMzSt2LeSlblZwZZg';
-                const apiURL = `https://api.unsplash.com/photos/random?client_id=${clientId}`;
+                const apiURL = `https://api.unsplash.com/photos/random?client_id=${clientId}`; //?client_id=${clientId}
 
                 // Fetch Image
                 return await fetch(apiURL)
