@@ -17,7 +17,7 @@ Or build the server yourself:
 
 ## Env Variables
 - `PORT` The port on which the app is listening
-- `MAX_FILE_SIZE` The max file size the app is accepting to get uploaded
-- `EXPIRATION_TIME` The time(in days) after which the files get deleted and are not accessible anymore
-- `EXPIRATION_WORKER_INTERVAL` How often the files are checked if they have to get deleted (in hours)
+- `MAX_FILE_SIZE` The max file size to get accepted for upload
+- `EXPIRATION_TIME` The time (in days) after which the files get deleted and are not available anymore
+- `EXPIRATION_WORKER_INTERVAL` How often the files are checked for deletion (in hours)
 - `API_URL` The URL on which the app is listening for uploads
