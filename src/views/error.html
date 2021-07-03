@@ -31,11 +31,43 @@
         .width-100 {
             width: 100%;
         }
+
+        #imageInfo {
+            bottom: 0px;
+            background-color: #1D1D1C;
+            color: white;
+            font-size: .8rem;
+            left: 0px;
+            padding: 7px 0 9px 5px;
+            position: absolute;
+            width: 100%;
+        }
+
+        
+        #imageInfo a {
+            color: white;
+            font-style: italic;
+            font-weight: 400;
+            text-decoration: none;
+        }
+
+        @media only screen and (max-width: 600px) {
+            #info-container{
+                width: 100%!important;
+            }
+
+            #imageContainer {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
     <div style="padding: 0 0 0 10%; display: flex; align-items: center; height: 100vh; gap: 60px;">
-        <div style="width: 30%;">
+        <a style="position: absolute; left: 35px; top: 35px; width: 60px; display: inline-block; padding: 15px 10px;" href="https://raphaelbernhart.at/" rel="author">
+            <img style="pointer-events: none; width: 100%;" src="https://assets.raphaelbernhart.at/images/logo/logo-light.png" alt="">
+        </a>
+        <div id="info-container" style="width: 30%;">
             <h1>File not found</h1>
             <h2>Can't find the file <span style="font-style: italic; font-weight: 400;" id="file-id"></span>.</h2>
             <div style="display: flex; gap: 20px; margin-top: 60px;">
@@ -43,8 +75,11 @@
                 <a class="link-info" href="https://raphaelbernhart.at">raphaelbernhart.at</a>
             </div>
         </div>
-        <div style="width: 70%; background-color: rgba(53, 53, 53); border: 0;">
-            <img id="image" style="height: 100vh; object-fit: cover;" src="" alt="">
+        <div id="imageContainer" style="width: 70%; background-color: rgba(53, 53, 53); border: 0; position: relative;">
+            <div id="imageInfo">
+                <p>Image from <a href="https://picsum.photos/" target="_blank" rel="nofollow">Lorem Picsum</a></p>
+            </div>
+            <img id="image" style="height: 100vh; width: 100%; object-fit: cover;" src="https://picsum.photos/1920/1080?grayscale" alt="">
         </div>
     </div>
 
@@ -60,29 +95,32 @@
             // Remove slash in the end of the path
             if(fileId.substring(fileId.length-1, fileId.length) === '/') fileId = fileId.substring(0, fileId.length-1)
 
+            // Output the fileID
             fileIdElement.innerHTML = fileId;
 
-            // Fetch API
-            const data = await fetchApi();
+            // Unsplash API
 
-            // Update ImageURL
-            const img = document.querySelector('#image');
-            let imgUrl = data.urls.regular.substring(0, 177) + '&h=1440&q=60';
+            // // Fetch API
+            // const data = await fetchApi();
 
-            img.src = imgUrl;
-            img.classList.add('width-100')
+            // // Update ImageURL
+            // const img = document.querySelector('#image');
+            // let imgUrl = data.urls.regular.substring(0, 177) + '&h=1440&q=60';
+
+            // img.src = imgUrl;
+            // img.classList.add('width-100')
 
 
-            async function fetchApi() {
-                const clientId = '_U6SMxBwCZTszmiL_of9N4SG6EtMzSt2LeSlblZwZZg';
-                const apiURL = `https://api.unsplash.com/photos/random?client_id=${clientId}`; //?client_id=${clientId}
+            // async function fetchApi() {
+            //     const clientId = '_U6SMxBwCZTszmiL_of9N4SG6EtMzSt2LeSlblZwZZg';
+            //     const apiURL = `https://api.unsplash.com/photos/random?client_id=${clientId}`; //?client_id=${clientId}
 
-                // Fetch Image
-                return await fetch(apiURL)
-                .then((res) => {
-                    return res.json();
-                })
-            }
+            //     // Fetch Image
+            //     return await fetch(apiURL)
+            //     .then((res) => {
+            //         return res.json();
+            //     })
+            // }
         })()
     </script>
 </body>
