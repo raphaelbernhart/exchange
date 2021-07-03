@@ -19,6 +19,9 @@ const app = Vue.createApp({
         }
     },
     template: `
+        <a style="position: absolute; left: 35px; top: 35px; width: 60px; display: inline-block; padding: 15px 10px;" href="https://raphaelbernhart.at/" rel="author">
+            <img style="pointer-events: none; width: 100%;" src="https://assets.raphaelbernhart.at/images/logo/logo-light.png" alt="">
+        </a>
         <upload-panel v-if="state == 'UPLOAD_PANEL'" id="upload-panel" @updateProgressPercent="updateProgressPercent" @updateProgressSeconds="updateProgressSeconds" @updateState="updateState" @getLinkID="getLinkID"></upload-panel>
         <upload-progress v-if="state == 'UPLOAD_PROGRESS'" @cancelUploadEvent="cancelUpload" :progressPercent="progressPercent" :progressSeconds="progressSeconds"></upload-progress>
         <upload-link v-if="state == 'UPLOAD_LINK'" :linkID="linkID"></upload-link>
